@@ -2,7 +2,7 @@ Blong App
 
 This is a spring boot application which helps telecom operators to manage their users and phone numbers easily.
 
-This requires Java 8.
+This requires Java 8. Data is stored in h2 database.
 
 This application supports following functionalities:
 1. Get all the phone numbers in the system along with the details.

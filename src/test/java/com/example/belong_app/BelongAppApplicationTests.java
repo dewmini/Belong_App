@@ -5,17 +5,40 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
-@SpringBootTest
-class BelongAppApplicationTests {
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class BelongAppApplicationTests {
+
+	@Autowired
+	private TestRestTemplate restTemplate;
 
 	@Test
-	void contextLoads() {
+	public void testIndexContent() {
+
+		ResponseEntity<String> response = this.restTemplate.getForEntity("/", String.class);
+		Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
+		Assert.assertTrue(response.getBody().contains("Welcome!"));
+	}
+
+	@Test
+	public void testListPhoneNumbersContent() {
+
+		ResponseEntity<String> response = this.restTemplate.getForEntity("/listPhoneNumbers", String.class);
+		Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
+		Assert.assertTrue(response.getBody().contains("All phone numbers"));
+	}
+
+	@Test
+	public void testGetCustomerByIdContent() {
+
+		ResponseEntity<String> response = this.restTemplate.getForEntity("/findUser?id=1", String.class );
+		Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
+		Assert.assertTrue(response.getBody().contains("User Details"));
 	}
 
 }
